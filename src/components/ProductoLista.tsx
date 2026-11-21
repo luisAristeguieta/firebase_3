@@ -1,11 +1,7 @@
 import { useEffect, useState } from "react";
 import { obtenerProductos, type Producto } from "../services/productoService";
 
-interface ProductoListaProps {
-    refreshTrigger?: number;
-}
-
-export function ProductoLista({ refreshTrigger = 0 }: ProductoListaProps) {
+export function ProductoLista() {
     const [productos, setProductos] = useState<Producto[]>([]);
     const [cargando, setCargando] = useState(true);
 
@@ -23,7 +19,7 @@ export function ProductoLista({ refreshTrigger = 0 }: ProductoListaProps) {
         };
 
         cargarProductos();
-    }, [refreshTrigger]);
+    }, []);
 
     if (cargando) {
         return <p>Cargando productos...</p>;
@@ -38,6 +34,7 @@ export function ProductoLista({ refreshTrigger = 0 }: ProductoListaProps) {
                 <table>
                     <thead>
                         <tr>
+                            <th>ID</th>
                             <th>Nombre</th>
                             <th>Precio</th>
                             <th>Stock</th>
@@ -46,6 +43,7 @@ export function ProductoLista({ refreshTrigger = 0 }: ProductoListaProps) {
                     <tbody>
                         {productos.map((producto) => (
                             <tr key={producto.id}>
+                                <td>{producto.id}</td>
                                 <td>{producto.nombre}</td>
                                 <td>${producto.precio}</td>
                                 <td>{producto.stock}</td>
