@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { obtenerProductos, type Producto } from "../services/productoService";
+import "./ProductoLista.css";
 
 export function ProductoLista() {
     const [productos, setProductos] = useState<Producto[]>([]);
@@ -22,20 +23,30 @@ export function ProductoLista() {
     }, []);
 
     if (cargando) {
-        return <p>Cargando productos...</p>;
+        return (
+            <div className="lista-card">
+                <div className="lista-loading">
+                    <span className="lista-loading__dot"></span>
+                    Cargando productos...
+                </div>
+            </div>
+        );
     }
 
     return (
-        <div>
-            <h2>Lista de Productos</h2>
+        <div className="lista-card">
+            <div className="lista-card__header">
+                <h2 className="lista-card__title">Productos</h2>
+                <span className="lista-card__count">{productos.length}</span>
+            </div>
+
             {productos.length === 0 ? (
-                <p>No hay productos registrados.</p>
+                <p className="lista-empty">No hay productos registrados.</p>
             ) : (
-                <table>
+                <table className="lista-table">
                     <thead>
                         <tr>
-                            <th>ID</th>
-                            <th>Nombre</th>
+                            <th>Producto</th>
                             <th>Precio</th>
                             <th>Stock</th>
                         </tr>
@@ -43,10 +54,20 @@ export function ProductoLista() {
                     <tbody>
                         {productos.map((producto) => (
                             <tr key={producto.id}>
-                                <td>{producto.id}</td>
-                                <td>{producto.nombre}</td>
-                                <td>${producto.precio}</td>
-                                <td>{producto.stock}</td>
+                                <td className="product-name">{producto.nombre}</td>
+                                <td className="product-price">${producto.precio}</td>
+                                <td>
+                                    <span
+                                        className={`stock-badge ${
+                                            producto.stock > 0
+                                                ? "stock-badge--available"
+                                                : "stock-badge--empty"
+                                        }`}
+                                    >
+                                        <span className="stock-badge__dot"></span>
+                                        {producto.stock}
+                                    </span>
+                                </td>
                             </tr>
                         ))}
                     </tbody>

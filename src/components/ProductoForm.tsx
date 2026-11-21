@@ -1,5 +1,6 @@
 import { useState, type SyntheticEvent } from "react";
 import { crearProducto } from "../services/productoService";
+import "./ProductoForm.css";
 
 export function ProductoForm() {
     const [nombre, setNombre] = useState("");
@@ -40,30 +41,45 @@ export function ProductoForm() {
     };
 
     return (
-        <div>
-            <form onSubmit={guardarProducto}>
-                <input
-                    type="text"
-                    placeholder="Nombre"
-                    value={nombre}
-                    onChange={(e) => setNombre(e.target.value)}
-                />
-                <input
-                    type="number"
-                    placeholder="precio"
-                    value={precio}
-                    onChange={(e) => setPrecio(e.target.value)}
-                />
-                <input
-                    type="number"
-                    placeholder="stock"
-                    value={stock}
-                    onChange={(e) => setStock(e.target.value)}
-                />
-                <button type="submit" disabled={guardando}>
-                    {guardando ? "Guardando..." : "Guardar"}
-                </button>
-            </form>
+        <div className="form-wrapper">
+            <div className="form-card">
+                <h2 className="form-card__title">Registrar Producto</h2>
+                <form onSubmit={guardarProducto}>
+                    <div className="form-field">
+                        <label htmlFor="nombre">Nombre</label>
+                        <input
+                            id="nombre"
+                            type="text"
+                            placeholder="Ej. Cuaderno A5"
+                            value={nombre}
+                            onChange={(e) => setNombre(e.target.value)}
+                        />
+                    </div>
+                    <div className="form-field">
+                        <label htmlFor="precio">Precio ($)</label>
+                        <input
+                            id="precio"
+                            type="number"
+                            placeholder="0.00"
+                            value={precio}
+                            onChange={(e) => setPrecio(e.target.value)}
+                        />
+                    </div>
+                    <div className="form-field">
+                        <label htmlFor="stock">Stock</label>
+                        <input
+                            id="stock"
+                            type="number"
+                            placeholder="0"
+                            value={stock}
+                            onChange={(e) => setStock(e.target.value)}
+                        />
+                    </div>
+                    <button type="submit" className="form-submit" disabled={guardando}>
+                        {guardando ? "Guardando..." : "Guardar"}
+                    </button>
+                </form>
+            </div>
         </div>
     );
 }
