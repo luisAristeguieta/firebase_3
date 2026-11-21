@@ -5,7 +5,7 @@ function App() {
 
   return (
     <div>
-      <ProductoForm onProductoCreado={() => alert("Producto creado!")} />
+      <ProductoForm />
       <ProductoLista />
     </div>
 

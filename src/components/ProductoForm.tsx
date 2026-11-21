@@ -1,11 +1,7 @@
 import { useState, type SyntheticEvent } from "react";
 import { crearProducto } from "../services/productoService";
 
-interface ProductoFormProps {
-    onProductoCreado?: () => void;
-}
-
-export function ProductoForm({ onProductoCreado }: ProductoFormProps) {
+export function ProductoForm() {
     const [nombre, setNombre] = useState("");
     const [precio, setPrecio] = useState("");
     const [stock, setStock] = useState("");
@@ -25,10 +21,6 @@ export function ProductoForm({ onProductoCreado }: ProductoFormProps) {
             setNombre("");
             setPrecio("");
             setStock("");
-
-            if (onProductoCreado) {
-                onProductoCreado();
-            }
         } catch (error) {
             console.log("error :" + error);
         }
