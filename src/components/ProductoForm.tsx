@@ -5,24 +5,37 @@ export function ProductoForm() {
     const [nombre, setNombre] = useState("");
     const [precio, setPrecio] = useState("");
     const [stock, setStock] = useState("");
+    const [guardando, setGuardando] = useState(false);
 
     const guardarProducto = async (e: SyntheticEvent<HTMLFormElement, SubmitEvent>) => {
         e.preventDefault();
 
+        if (!nombre.trim() || !precio || !stock) {
+            alert("Por favor completa todos los campos.");
+            return;
+        }
+
         try {
+            setGuardando(true);
+            const nombreLimpio = nombre.trim();
+
             const productoId = await crearProducto(
-                nombre,
+                nombreLimpio,
                 Number(precio),
                 Number(stock)
             );
 
             console.log("Producto creado: ", productoId);
+            alert(`Producto "${nombreLimpio}" guardado correctamente.`);
 
             setNombre("");
             setPrecio("");
             setStock("");
         } catch (error) {
-            console.log("error :" + error);
+            console.error("Error al guardar producto:", error);
+            alert("Ocurrió un error al guardar el producto en Firestore.");
+        } finally {
+            setGuardando(false);
         }
     };
 
@@ -47,7 +60,9 @@ export function ProductoForm() {
                     value={stock}
                     onChange={(e) => setStock(e.target.value)}
                 />
-                <button type="submit">Guardar</button>
+                <button type="submit" disabled={guardando}>
+                    {guardando ? "Guardando..." : "Guardar"}
+                </button>
             </form>
         </div>
     );
